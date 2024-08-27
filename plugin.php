@@ -27,7 +27,7 @@ if (!defined('WPINC')) {
 	die;
 }
 
-function my_excerpt_length($length)
+function my_excerpt_length()
 {
 	return 24;
 }
