@@ -1,9 +1,9 @@
 <?php
 /*
-Plugin Name:	Alter WP Post Excerpt Length
-Plugin URI:		https://github.com/v12dev/alter-wp-excerpt-length.git
+Plugin Name:	Protect WooCommerce Product Categories
+Plugin URI:		https://github.com/v12dev/protect-woo-categories.git
 Version:		1.0.0
-Description:	A custom plugin used on Oxygen websites to revise (likely trim) length of WP Post excerpts.
+Description:	A custom plugin used on Oxygen websites to protect WooCommerce categories
 Author:			Seth Lewis
 Author URI:		https://v12marketing.com
 License:		GPL-2.0+
@@ -27,9 +27,22 @@ if (!defined('WPINC')) {
 	die;
 }
 
-function my_excerpt_length()
+function protect_woocommerce_category()
 {
-	return 24;
-}
+	if (is_product_category()) {
+		$protected_category_slugs = array('ortho-molecular');
 
-add_filter('excerpt_length', 'my_excerpt_length');
+		$queried_object = get_queried_object();
+		$current_category_slug = $queried_object->slug;
+
+		if (in_array($current_category_slug, $protected_category_slugs)) {
+			if (!post_password_required()) {
+				return;
+			} else {
+				echo get_the_password_form();
+				exit;
+			}
+		}
+	}
+}
+add_action('template_redirect', 'protect_woocommerce_category');

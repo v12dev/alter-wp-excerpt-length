@@ -1,4 +1,4 @@
-# My Custom Functionality
+# Protect Woo Product Categories
 
 A custom plugin used on Oxygen websites to revise (likely trim) length of WP Post excerpts.
 
